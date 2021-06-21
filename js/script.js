@@ -3,7 +3,8 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-let dataLength = data.length;
+const studentList = document.querySelector('.student-list');
+const linkList = document.querySelector('.link-list');
 
 /*
 Create the `showPage` function
@@ -15,8 +16,6 @@ This function will create and insert/append the elements needed to display a "pa
    js-class for page 1, page 2, page 3 (array length / 9 rounded up)
    loop through the array, creating the element and adding the js-class property   
       in chunks of 9
-
-   
 */
 
 //function -> creates the StudentItem HTML element
@@ -48,7 +47,7 @@ let createStudentItem = (studentObject) => {
 
    let date = document.createElement('SPAN');
    date.className = "date";
-   date.textContent = `Joined: ${studentObject.registered['joined']}`
+   date.textContent = `Joined: ${studentObject.registered['date']}`
 
    //appending all child elements to their parents
    studentDetails.appendChild(avatar);
@@ -63,6 +62,13 @@ let createStudentItem = (studentObject) => {
 
 }
 
+let appendItem = () => {
+   for (let item of data){
+      let newDiv = createStudentItem(item);
+      studentList.appendChild(newDiv);
+   }
+};
+
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
@@ -74,6 +80,24 @@ This function will create and insert/append the elements needed for the paginati
       and then appends all divs with a matching js-class
 */
 
+// find out how many pagination buttons are needed
+let dataLength = data.length;
+console.log(dataLength);
+let numberOfPages = Math.ceil(dataLength/9);
+console.log(numberOfPages);
+
+//create buttons
+for (let i = 1; i <= numberOfPages; i++){
+   let buttonLI = document.createElement('LI');
+   let button = document.createElement('BUTTON');
+   button.setAttribute('type', 'button');
+   if (i === 1){
+      button.className = 'active';
+   }
+   button.textContent = i;
+   buttonLI.appendChild(button);
+   linkList.appendChild(buttonLI);
+}
 
 // Call functions
 
@@ -82,3 +106,5 @@ This function will create and insert/append the elements needed for the paginati
    create all divs
    create all buttons & after all divs created -> append first 9 to the page
 */
+
+appendItem();
